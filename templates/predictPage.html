@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lung Cancer Prediction </title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <style>
+      html, body {
+        height: 100%;
+      }
+      body, input, select { 
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 16px;
+        color: #eee;
+      }
+      h1, h3 {
+        font-weight: 400;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      h3 {
+        color: #1c87c9;
+      }
+      .main-block, .info {
+        display: flex;
+        flex-direction: column;
+      }
+      .main-block {
+        justify-content: center;
+        align-items: center;
+        width: 100%; 
+        min-height: 100%;
+        background: url("https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGxhaW58ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60") no-repeat center;
+        background-size: cover;
+      }
+      form {
+        width: 80%; 
+        padding: 25px;
+        margin-bottom: 20px;
+        background: rgba(0, 0, 0, 0.9);
+      }
+      input, select {
+        padding: 5px;
+        margin-bottom: 20px;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #eee;
+      }
+      input::placeholder {
+        color: #eee;
+      }
+      option {
+        background: black; 
+        border: none;
+      }
+      .metod {
+        display: flex; 
+      }
+      input[type=radio] {
+        display: none;
+      }
+      label.radio {
+        position: relative;
+        display: inline-block;
+        margin-right: 20px;
+        text-indent: 32px;
+        cursor: pointer;
+      }
+      label.radio:before {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        border: 2px solid #1c87c9;
+      }
+      label.radio:after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 4px;
+        top: 5px;
+        left: 5px;
+        border-bottom: 3px solid #1c87c9;
+        border-left: 3px solid #1c87c9;
+        transform: rotate(-45deg);
+        opacity: 0;
+      }
+      input[type=radio]:checked + label:after {
+        opacity: 1;
+      }
+      button {
+        display: block;
+        width: 200px;
+        padding: 10px;
+        margin: 20px auto 0;
+        border: none;
+        border-radius: 5px; 
+        background: #1c87c9; 
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+      }
+      button:hover {
+        background: #095484;
+      }
+      @media (min-width: 568px) {
+      .info {
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
+      input {
+        width: 46%;
+      }
+      input.fname {
+        width: 100%;
+      }
+      select {
+        width: 48%;
+      }
+      }
+
+
+      /* HEADER STYLE */
+      ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        li {
+          float: left;
+        }
+        
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        li a:hover:not(.active) {
+          background-color: #111;
+        }
+        
+        .active {
+          background-color: #04AA6D;
+        }
+        </style>
+
+      <!-- /* END OF HEADER STYLE */ -->
+    </style>
+  </head>
+  <body> <!-- onload="valChange()" -->
+    
+    <!-- HEADER HERE -->
+    <ul>
+      {% for item in nav.top %}
+      <li class="{{ 'active' if item.is_active else '' }}">
+          <a href="{{ item.url }}">{{ item.label }}</a>
+      </li>
+      {% endfor %}
+  </ul>
+  <!-- END OF HEAADER -->
+
+
+    <div class="main-block">
+      <h1>Lung Cancer Prediction </h1>
+      <!--  -->
+      <form method="POST">  
+        <div class="info">
+          <input class="fname" type="text" name="name" id="name" placeholder="Full name">
+          <input  class="fname" type="text" name="email" id ="email" placeholder="Email">
+          <input  class="fname" type="text" name="phone" id="phone" placeholder="Phone number">
+          <input class="fname" type="text" id="age" name="age" placeholder="Age (eg. 30)" required> 
+<!-- TEMP---------------------------------------------------------------------------------- -->
+          <!-- <select id="smoking" name="smoking" required>
+            <option value="" disabled selected hidden>Do you Smoke? (Yes/No)</option>
+            <option value="yes">Yes Smoking</option>
+            <option value="no">No Smoking</option>
+          </select> -->
+
+          <!-- <input type="text" id="gender" name="gender" placeholder="Gender"> -->
+          <select id="gender" name="gender" required>
+            <option value="" disabled selected >Select yourGender (M/F)</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+
+          <!-- <input type="text" id="smoking" name="smoking" placeholder="Smoking"> -->
+          <select id="smoking" name="smoking" required>
+            <option value="" disabled selected >Do you Smoke? (Yes/No)</option>
+            <option value="yes">Yes Smoking</option>
+            <option value="no">No Smoking</option>
+          </select>
+
+
+          <!-- <input type="text" id="yellowF" name="yellowF" placeholder="yellowF" required> -->
+          <select id="yellowF" name="yellowF" required>
+            <option value="" disabled selected >Do you have Yellow fingers (Yes/No)</option>
+            <option value="yes">Yellow fingers</option>
+            <option value="no">No Yellow fingers</option>
+          </select>
+
+          <!-- <input type="text" id="anxiety" name="anxiety" placeholder="Anxiety" required> -->
+          <select id="anxiety" name="anxiety" required>
+            <option value="" disabled selected >Do you have any anxiety: (Yes/No)</option>
+            <option value="yes">Yes (Anxiety)</option>
+            <option value="no">No (Anxiety)</option>
+          </select>
+
+          <!-- <input type="text" id="peerP" name="peerP" placeholder="PeerP" required> -->
+          <select id="peerP" name="peerP" required>
+            <option value="" disabled selected >Do you have any Peer pressure: (Yes/No)</option>
+            <option value="yes">Yes (Peer pressure)</option>
+            <option value="no">No (Peer pressure)</option>
+          </select>
+
+          <!-- <input type="text" id="chronicD" name="chronicD" placeholder="ChronicD" required> -->
+          <select id="chronicD" name="chronicD" required>
+            <option value="" disabled selected >Do you have any Chronic Disease: (Yes/No)</option> 
+            <option value="yes">Yes (Chronic Disease)</option>
+            <option value="no">No (Chronic Disease)</option>
+          </select>
+
+          <!-- <input type="text" id="fatigue" name="fatigue" placeholder="fatigue" required> -->
+          <select id="fatigue" name="fatigue" required>
+            <option value="" disabled selected >Do you have any Fatigue: (Yes/No)</option> 
+            <option value="yes">Yes (Chronic Fatigue)</option>
+            <option value="no">No (Chronic Fatigue)</option>
+          </select>
+
+          <!-- <input type="text" id="allegy" name="allegy" placeholder="allegy" required> -->
+          <select id="allegy" name="allegy" required>
+            <option value="" disabled selected >Do you have any Allergy: (Yes/No)</option> 
+            <option value="yes">Yes (Allergy)</option>
+            <option value="no">No (Allergy)</option>
+          </select>
+
+          <!-- <input type="text" id="wheezing" name="wheezing" placeholder="wheezing" required> -->
+          <select id="wheezing" name="wheezing" required>
+            <option value="" disabled selected >Do you have any Wheezing: (Yes/No)</option> 
+            <option value="yes">Yes (Wheezing)</option>
+            <option value="no">No (Wheezing)</option>
+          </select>
+
+          <!-- <input type="text" id="alcholC" name="alcholC" placeholder="alcholC" required> -->
+          <select id="alcholC" name="alcholC" required>
+            <option value="" disabled selected >Do you take any Alcohol: (Yes/No)</option> 
+            <option value="yes">Yes (Alcohol)</option>
+            <option value="no">No (Alcohol)</option>
+          </select>
+
+          <!-- <input type="text" id="coughing" name="coughing" placeholder="coughing" required> -->
+          <select id="coughing" name="coughing" required>
+            <option value="" disabled selected >Do you have any Coughing: (Yes/No)</option> 
+            <option value="yes">Yes (Coughing)</option>
+            <option value="no">No (Coughing)</option>
+          </select>
+
+          <!-- <input type="text" id="shortnessBreath" name="shortnessBreath" placeholder="shortnessBreath" required> -->
+          <select id="shortnessBreath" name="shortnessBreath" required>
+            <option value="" disabled selected >Do you have any Shortness of Breath: (Yes/No)</option> 
+            <option value="yes">Yes (Shortness of Breath)</option>
+            <option value="no">No (Shortness of Breath)</option>
+          </select>
+
+          <!-- <input type="text" id="SwllowingD" name="SwllowingD" placeholder="SwllowingD" required> -->
+          <select id="SwllowingD" name="SwllowingD" required>
+            <option value="" disabled selected >Do you have any Swallowing Difficulty: (Yes/No)</option> 
+            <option value="yes">Yes (Swallowing Difficulty)</option>
+            <option value="no">No (Swallowing Difficulty)</option>
+          </select>
+
+          <!-- <input type="text" id="chestPain" name="chestPain" placeholder="chestPain" required> -->
+          <select id="chestPain" name="chestPain" required>
+            <option value="" disabled selected >Do you have any Chest pain: (Yes/No)</option> 
+            <option value="yes">Yes (Chest pain)</option>
+            <option value="no">No (Chest pain)</option>
+          </select>
+        </div>
+        <button onsubmit ="alert('Details are submitted successfully/\nClick on Report button to check Rport')" type="submit" class="button">Submit</button>
+        <!-- <button   class="button" name="checkR" id="checkR">Check Report</button> -->
+        <!-- onclick="rediretFun()"    onclick="window.location.replace='http://127.0.0.1:8000/predictPage'" -->
+        <input hidden  readonly class="fname" id="rh" name="result" value="{{var}}">
+      </form>
+
+      <form action="http://127.0.0.1:8000/reportDisplay" method="post">
+        <div class="info">
+          <button type="submit" value="Check Result">Check Result</button>
+        </div>
+      </form>
+    
+    </div>
+
+<!-- 
+  <script>
+    function  rediretFun()
+    {
+      if(confirm("Check Reult Now?"))
+      {
+        window.location.href=" http://127.0.0.1:8000/reportDisplay"
+        // window.location.href=" http://127.0.0.1:8000/reportDisplay"
+      }
+      else
+          window.location.href=" http://127.0.0.1:8000/predictPage"
+        
+    }
+  </script> -->
+
+       <!-- Start Footer  -->
+       <footer>
+        <div class="footer-main">
+            <div class="container">
+      
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="footer-top-box">
+              
+              <ul>
+                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <hr>
+  
+            </div>
+        </div>
+    </footer>
+
+  </body>
+</html>
